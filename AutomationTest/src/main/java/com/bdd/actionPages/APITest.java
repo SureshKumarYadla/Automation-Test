@@ -1,22 +1,21 @@
 package com.bdd.actionPages;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import org.json.simple.parser.ParseException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
-
-import static io.restassured.RestAssured.given;
-
-public class APITest extends BaseClass {
-    public static WebDriver driver;
-
+public class APITest  {
     @Test
-    public  void Test_API() throws IOException, ParseException {
-
+    public  void Test_API() {
+        String url= "https://api.citybik.es/v2/networks";
+        Response response= RestAssured.given().when().get(url).then().extract().response();
+        System.out.println("logging response: \n " + response.asPrettyString());
+        JsonPath path =response.jsonPath();
+        String country = path.getString("networks.location[0].country");
+        String latitude = path.getString("networks.location[0].latitude");
+        String longitude = path.getString("networks.location[0].longitude");
+        System.out.println("Country: "+country +"\nLatitude: "+ latitude +"\nLongitude:"+ longitude);
 
     }
 

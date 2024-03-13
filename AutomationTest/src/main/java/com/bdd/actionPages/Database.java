@@ -1,15 +1,25 @@
 package com.bdd.actionPages;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
+public class Database {
 
-import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Test;
+	Connection connection =null;
+	public void connectToDataBase(String server, String dataBase, String userName, String password) throws ClassNotFoundException, SQLException {
 
-public class Database extends BaseClass {
-	public static WebDriver driver;
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+		String connectionString ="jdbc:sqlserver://"+server+";database="+dataBase+";user="+userName+";password="+password;
+		connection = DriverManager.getConnection(connectionString);
+	}
 
+	public ResultSet executeQuery(String query) throws SQLException {
+		Statement statement = connection.createStatement();
+		ResultSet rs = statement.executeQuery(query);
+		while (rs.next()){
+			rs.getInt(1);
+			rs.getString(2);
+			rs.getInt(3);
+		}
+		return rs;
 
+	}
 }

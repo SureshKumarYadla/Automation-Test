@@ -16,7 +16,7 @@ public class SeleniumFactory {
         if(driver==null){
             try{
 
-                setDriver(System.getProperty("browser.name"));
+                setDriver("chrome");
                 driver.manage().window().maximize();
                 driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
                 setURL(System.getProperty("url"));
