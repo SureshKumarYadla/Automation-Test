@@ -1,13 +1,11 @@
 package com.bdd.stepdefinition;
 
 import com.bdd.actionPages.*;
-
-import com.bdd.browser.SeleniumFactory;
 import cucumber.api.java.en.Given;
-import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-import org.testng.asserts.SoftAssert;
+import cucumber.api.java.en.When;
 import org.testng.asserts.Assertion;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
