@@ -15,6 +15,7 @@ public class TxMaxxStepDefinition extends BaseClass {
     HomePage homePage = new HomePage(driver);
     APITest apiTest = new APITest();
     SoftAssert softAssert = new SoftAssert();
+    List<String> productDetails=null;
 
     public TxMaxxStepDefinition(){
         super();
@@ -28,14 +29,16 @@ public class TxMaxxStepDefinition extends BaseClass {
     @Then("The user verifies all the menu tabs")
     public void userVerifiesAllTheMenuTabs() {
         List<String> urls =new HomePage(driver).validateMenuTabsInHomePage();
-       softAssert.assertEquals(urls.get(1),"");
-       softAssert.assertEquals(urls.get(2),"");
-       softAssert.assertEquals(urls.get(3),"");
-       softAssert.assertEquals(urls.get(4),"");
-       softAssert.assertEquals(urls.get(5),"");
-       softAssert.assertEquals(urls.get(6),"");
-       softAssert.assertEquals(urls.get(7),"");
-       softAssert.assertEquals(urls.get(8),"");
+       softAssert.assertTrue(urls.get(1).contains("new-in"));
+       softAssert.assertTrue(urls.get(2).contains("women"));
+       softAssert.assertTrue(urls.get(3).contains("men"));
+       softAssert.assertTrue(urls.get(4).contains("kids+toys"));
+       softAssert.assertTrue(urls.get(5).contains("home"));
+       softAssert.assertTrue(urls.get(6).contains("beauty"));
+       softAssert.assertTrue(urls.get(7).contains("gifts"));
+       softAssert.assertTrue(urls.get(8).contains("clearance"));
+
+       softAssert.assertAll();
     }
 
     @When("The user selects Clothing option under Mens tab")
@@ -60,6 +63,7 @@ public class TxMaxxStepDefinition extends BaseClass {
 
     @When("The user clicks the Size Guide link and verifies that Size Guide text is displayed")
     public void verifyTheSizeGuideTitleInNewPage() {
+        productDetails= new ProductPage(driver).getProductDetails();
         new ProductPage(driver).clickSizeGuideButton().isSizeGuideTitleDisplayed();
 
     }
@@ -83,10 +87,8 @@ public class TxMaxxStepDefinition extends BaseClass {
     public void validateTheProductDetailsInViewBag() {
         new ProductPage(driver).clickViewBagButton();
         List<String> itemDetails =new YourShoppingBagPage(driver).getItemDetails();
-        softAssert.assertEquals(itemDetails.get(1),"");
-        softAssert.assertEquals(itemDetails.get(2),"");
-        softAssert.assertEquals(itemDetails.get(3),"");
-        softAssert.assertEquals(itemDetails.get(4),"");
+        softAssert.assertEquals("Item details are not same" + itemDetails,productDetails);
+
     }
 
     @When("The user navigates to Checkout page by clicking Checkout button")
@@ -101,9 +103,9 @@ public class TxMaxxStepDefinition extends BaseClass {
     }
 
     @Then("The user validates the email error message")
-    public void the_user_validates_the_email_error_message() {
+    public void validateEmailErrorMessage() {
         Assertion s =new Assertion();
-        s.assertEquals(new SecureCheckOutPage(driver).getEmailErrorMessage(),"");
+        s.assertEquals(new SecureCheckOutPage(driver).getEmailErrorMessage(),"Please enter an email address");
     }
 
 
